@@ -79,6 +79,9 @@
     if (isEnabled) return;
     isEnabled = true;
 
+    // CSS 层：在 html 上添加属性，激活高优先级 CSS 选择器
+    document.documentElement.setAttribute('data-force-copy', '');
+
     // 第 1 层：Capture Phase 事件拦截
     enableEventInterception();
 
@@ -105,6 +108,9 @@
   function disableForceCopy() {
     if (!isEnabled) return;
     isEnabled = false;
+
+    // CSS 层：移除属性，恢复原始样式
+    document.documentElement.removeAttribute('data-force-copy');
 
     cleanupFns.forEach((fn) => {
       try { fn(); } catch (e) { /* 忽略清理错误 */ }

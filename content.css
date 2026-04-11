@@ -1,10 +1,13 @@
 /*
  * 强制复制 - CSS 注入层
  * 目标：覆盖所有 user-select 限制，允许自由选择和复制文本
+ * 策略：通过 content.js 在 html 上添加 [data-force-copy] 属性，
+ *       用 html[data-force-copy] * 选择器（优先级 0,1,2）覆盖类选择器（0,1,0）
  */
 
 /* 全局强制允许文本选择 */
-*, *::before, *::after {
+html[data-force-copy], html[data-force-copy] *,
+html[data-force-copy] *::before, html[data-force-copy] *::after {
   user-select: text !important;
   -webkit-user-select: text !important;
   -moz-user-select: text !important;
@@ -12,14 +15,15 @@
 }
 
 /* 允许拖拽图片 */
-img {
+html[data-force-copy] img {
   -webkit-user-drag: auto !important;
   pointer-events: auto !important;
 }
 
 /* 确保打印时也能选择 */
 @media print {
-  *, *::before, *::after {
+  html[data-force-copy], html[data-force-copy] *,
+  html[data-force-copy] *::before, html[data-force-copy] *::after {
     user-select: text !important;
     -webkit-user-select: text !important;
   }
