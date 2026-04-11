@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       width: 280px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
@@ -16,6 +22,7 @@
       padding: 14px 16px 10px;
       border-bottom: 1px solid #eee;
     }
+
     .header h1 {
       font-size: 15px;
       font-weight: 600;
@@ -23,9 +30,11 @@
       align-items: center;
       gap: 6px;
     }
+
     .header h1 .icon {
       font-size: 18px;
     }
+
     .header .subtitle {
       font-size: 11px;
       color: #888;
@@ -38,11 +47,13 @@
       background: #f8f9fa;
       border-bottom: 1px solid #eee;
     }
+
     .site-info .label {
       font-size: 11px;
       color: #999;
       margin-bottom: 2px;
     }
+
     .site-info .hostname {
       font-size: 13px;
       font-weight: 500;
@@ -57,19 +68,23 @@
       justify-content: space-between;
       padding: 14px 16px;
     }
+
     .toggle-info {
       flex: 1;
     }
+
     .toggle-label {
       font-size: 13px;
       color: #333;
     }
+
     .toggle-status {
       font-size: 11px;
       color: #888;
       margin-top: 2px;
       transition: color 0.2s;
     }
+
     .toggle-status.active {
       color: #4CAF50;
     }
@@ -82,29 +97,43 @@
       flex-shrink: 0;
       margin-left: 12px;
     }
-    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
     .slider {
       position: absolute;
       cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background-color: #ccc;
       border-radius: 24px;
       transition: 0.2s;
     }
+
     .slider:before {
       position: absolute;
       content: "";
-      height: 18px; width: 18px;
-      left: 3px; bottom: 3px;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
       background-color: white;
       border-radius: 50%;
       transition: 0.2s;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
-    input:checked + .slider {
+
+    input:checked+.slider {
       background-color: #4CAF50;
     }
-    input:checked + .slider:before {
+
+    input:checked+.slider:before {
       transform: translateX(20px);
     }
 
@@ -122,12 +151,16 @@
       border-top: 1px solid #eee;
       text-align: center;
     }
+
     .footer a {
       font-size: 11px;
       color: #999;
       text-decoration: none;
     }
-    .footer a:hover { color: #555; }
+
+    .footer a:hover {
+      color: #555;
+    }
 
     /* 提示信息 */
     .tip {
@@ -140,6 +173,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="header">
     <h1><span class="icon">📋</span> 强制复制</h1>
@@ -169,11 +203,12 @@
   </div>
 
   <div class="footer">
-    <a href="https://github.com" target="_blank">反馈问题</a>
+    <a href="https://github.com/Akxybyc/force_copy/issues" target="_blank">反馈问题</a>
     <span style="color: #ddd; margin: 0 6px;">|</span>
-    <a href="https://github.com" target="_blank">源代码</a>
+    <a href="https://github.com/Akxybyc/force_copy" target="_blank">源代码</a>
   </div>
 
   <script src="popup.js"></script>
 </body>
+
 </html>
