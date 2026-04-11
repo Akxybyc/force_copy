@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>强制复制 - 测试页面</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+      color: #333;
+    }
+    h1 { color: #4CAF50; margin-bottom: 8px; }
+    .desc { color: #666; margin-bottom: 24px; font-size: 14px; }
+
+    .test-section {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .test-section h2 {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 4px;
+    }
+    .test-section .method {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 12px;
+      font-family: monospace;
+    }
+    .test-content {
+      padding: 12px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .result {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #888;
+    }
+    .result .pass { color: #4CAF50; font-weight: bold; }
+    .result .fail { color: #f44336; font-weight: bold; }
+
+    /* ===== 测试用的防护样式 ===== */
+
+    /* 测试1: CSS user-select: none */
+    .css-protected {
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+    }
+
+    /* 测试5: 伪元素覆盖层 */
+    .overlay-protected {
+      position: relative;
+    }
+    .overlay-protected::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: transparent;
+      z-index: 1;
+    }
+
+    /* 测试6: pointer-events: none */
+    .pointer-protected {
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📋 强制复制 - 功能测试页面</h1>
+  <p class="desc">
+    此页面包含 6 种常见的网页复制限制方式。安装「强制复制」扩展后，点击扩展图标启用当前站点，然后刷新此页面，尝试选中并复制以下所有文字。
+  </p>
+
+  <!-- 测试 1: CSS user-select: none -->
+  <div class="test-section">
+    <h2>测试 1：CSS user-select: none</h2>
+    <div class="method">CSS: user-select: none !important;</div>
+    <div class="test-content css-protected">
+      这段文字被 CSS user-select: none 保护。正常情况下你无法选中它。安装扩展后应该可以自由选中复制。这是一段测试文字，包含中文和 English mixed content。
+    </div>
+    <div class="result">✅ 如果你能选中这段文字，说明 CSS 层防护解除成功</div>
+  </div>
+
+  <!-- 测试 2: JS addEventListener 阻止复制 -->
+  <div class="test-section">
+    <h2>测试 2：JS addEventListener 阻止复制</h2>
+    <div class="method">JS: document.addEventListener('copy', e => e.preventDefault())</div>
+    <div class="test-content" id="jsProtected">
+      这段文字被 JavaScript 事件监听器保护。即使你能选中文字，按下 Ctrl+C 时复制操作会被阻止。安装扩展后应该可以正常复制。
+    </div>
+    <div class="result">✅ 如果你选中文字后按 Ctrl+C 能复制到剪贴板，说明事件拦截成功</div>
+  </div>
+
+  <!-- 测试 3: 内联事件属性阻止复制 -->
+  <div class="test-section">
+    <h2>测试 3：内联事件属性阻止复制</h2>
+    <div class="method">HTML: oncopy="return false" oncontextmenu="return false"</div>
+    <div class="test-content" oncopy="return false" oncut="return false" onpaste="return false" oncontextmenu="return false" onselectstart="return false">
+      这段文字通过 HTML 内联事件属性保护。oncopy、oncut、onpaste、oncontextmenu、onselectstart 全部被设置为 return false。安装扩展后应该可以正常复制和右键。
+    </div>
+    <div class="result">✅ 如果你能选中、复制并右键这段文字，说明内联事件清除成功</div>
+  </div>
+
+  <!-- 测试 4: 禁止右键菜单 -->
+  <div class="test-section">
+    <h2>测试 4：禁止右键菜单</h2>
+    <div class="method">JS: document.addEventListener('contextmenu', e => e.preventDefault())</div>
+    <div class="test-content" id="contextMenuProtected">
+      这段文字所在区域禁止右键菜单。正常情况下右键点击不会弹出菜单。安装扩展后应该可以正常右键。
+    </div>
+    <div class="result">✅ 如果你能在这段文字上右键弹出菜单，说明右键菜单拦截成功</div>
+  </div>
+
+  <!-- 测试 5: 透明伪元素覆盖层 -->
+  <div class="test-section">
+    <h2>测试 5：透明伪元素覆盖层</h2>
+    <div class="method">CSS: ::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; z-index:1; }</div>
+    <div class="test-content overlay-protected">
+      这段文字上有一个透明的伪元素覆盖层。正常情况下鼠标点击会被覆盖层拦截，无法选中文本。安装扩展后应该可以穿透覆盖层选中文字。
+    </div>
+    <div class="result">✅ 如果你能选中这段文字，说明覆盖层防护被突破</div>
+  </div>
+
+  <!-- 测试 6: 动态添加保护（模拟 SPA） -->
+  <div class="test-section">
+    <h2>测试 6：动态添加保护（模拟 SPA）</h2>
+    <div class="method">JS: 动态插入带保护属性的新元素</div>
+    <div class="test-content" id="dynamicContainer">
+      <p>点击下方按钮，会动态插入一段被保护的新文字。扩展的 MutationObserver 应该能自动清除新元素上的保护属性。</p>
+      <button onclick="addDynamicContent()" style="margin-top: 8px; padding: 6px 16px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">插入受保护的内容</button>
+      <div id="dynamicContent" style="margin-top: 12px;"></div>
+    </div>
+    <div class="result">✅ 如果动态插入的文字也能被选中复制，说明 MutationObserver 工作正常</div>
+  </div>
+
+  <script>
+    // 测试 2: JS addEventListener 阻止复制
+    const jsProtected = document.getElementById('jsProtected');
+    ['copy', 'cut', 'paste', 'selectstart'].forEach(event => {
+      jsProtected.addEventListener(event, e => e.preventDefault());
+    });
+
+    // 测试 4: 禁止右键菜单
+    const contextMenuProtected = document.getElementById('contextMenuProtected');
+    contextMenuProtected.addEventListener('contextmenu', e => e.preventDefault());
+
+    // 测试 6: 动态添加保护内容
+    function addDynamicContent() {
+      const container = document.getElementById('dynamicContent');
+      const div = document.createElement('div');
+      div.textContent = '这是动态插入的文字。它被设置了 oncopy="return false" 和 user-select: none。如果扩展的 MutationObserver 正常工作，你应该仍然能选中并复制这段文字。This is dynamically inserted protected content.';
+      div.style.userSelect = 'none';
+      div.style.webkitUserSelect = 'none';
+      div.style.padding = '8px';
+      div.style.background = '#fff3e0';
+      div.style.borderRadius = '4px';
+      div.setAttribute('oncopy', 'return false');
+      div.setAttribute('oncontextmenu', 'return false');
+      div.setAttribute('onselectstart', 'return false');
+      container.appendChild(div);
+    }
+  </script>
+
+</body>
+</html>

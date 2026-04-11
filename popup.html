@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 280px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #ffffff;
+      color: #333;
+    }
+
+    /* 头部 */
+    .header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .header h1 {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header h1 .icon {
+      font-size: 18px;
+    }
+    .header .subtitle {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    /* 站点信息 */
+    .site-info {
+      padding: 10px 16px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #eee;
+    }
+    .site-info .label {
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 2px;
+    }
+    .site-info .hostname {
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      word-break: break-all;
+    }
+
+    /* 开关行 */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+    }
+    .toggle-info {
+      flex: 1;
+    }
+    .toggle-label {
+      font-size: 13px;
+      color: #333;
+    }
+    .toggle-status {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+      transition: color 0.2s;
+    }
+    .toggle-status.active {
+      color: #4CAF50;
+    }
+
+    /* iOS 风格开关 */
+    .switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      border-radius: 24px;
+      transition: 0.2s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    /* 统计信息 */
+    .enabled-count {
+      font-size: 11px;
+      color: #aaa;
+      text-align: center;
+      padding: 0 16px 10px;
+    }
+
+    /* 底部 */
+    .footer {
+      padding: 8px 16px 10px;
+      border-top: 1px solid #eee;
+      text-align: center;
+    }
+    .footer a {
+      font-size: 11px;
+      color: #999;
+      text-decoration: none;
+    }
+    .footer a:hover { color: #555; }
+
+    /* 提示信息 */
+    .tip {
+      padding: 8px 16px;
+      background: #fff8e1;
+      border-top: 1px solid #ffe082;
+      font-size: 11px;
+      color: #795548;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1><span class="icon">📋</span> 强制复制</h1>
+    <div class="subtitle">解除网页复制限制，自由复制任何内容</div>
+  </div>
+
+  <div class="site-info">
+    <div class="label">当前站点</div>
+    <div class="hostname" id="hostname">加载中...</div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-info">
+      <div class="toggle-label">启用强制复制</div>
+      <div class="toggle-status" id="statusText">已关闭</div>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggleSwitch">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="enabled-count" id="enabledCount"></div>
+
+  <div class="tip" id="tip" style="display: none;">
+    切换后将自动刷新页面以应用更改
+  </div>
+
+  <div class="footer">
+    <a href="https://github.com" target="_blank">反馈问题</a>
+    <span style="color: #ddd; margin: 0 6px;">|</span>
+    <a href="https://github.com" target="_blank">源代码</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
